@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbsmkrtudentbaruModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Guru">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nama" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="No_Telepon_id" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Mata_pelajaran_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Jurusan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nama" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kelas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nama" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Wali_Kelas_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Mapel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nama" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Siswa">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nama" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Tanggal_lahir" Type="date" Nullable="false" />
+          <Property Name="NISN" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="No_Telepon" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Orang_tua" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Jurusan_id" Type="int" Nullable="false" />
+          <Property Name="Kelas_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Guru_Mapel">
+          <End Role="Mapel" Type="Self.Mapel" Multiplicity="1" />
+          <End Role="Guru" Type="Self.Guru" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mapel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Guru">
+              <PropertyRef Name="Mata_pelajaran_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kelas_Guru">
+          <End Role="Guru" Type="Self.Guru" Multiplicity="1" />
+          <End Role="Kelas" Type="Self.Kelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guru">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Kelas">
+              <PropertyRef Name="Wali_Kelas_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siswa_Jurusan">
+          <End Role="Jurusan" Type="Self.Jurusan" Multiplicity="1" />
+          <End Role="Siswa" Type="Self.Siswa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jurusan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Siswa">
+              <PropertyRef Name="Jurusan_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siswa_Kelas">
+          <End Role="Kelas" Type="Self.Kelas" Multiplicity="1" />
+          <End Role="Siswa" Type="Self.Siswa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kelas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Siswa">
+              <PropertyRef Name="Kelas_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbsmkrtudentbaruModelStoreContainer">
+          <EntitySet Name="Guru" EntityType="Self.Guru" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jurusan" EntityType="Self.Jurusan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kelas" EntityType="Self.Kelas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mapel" EntityType="Self.Mapel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Siswa" EntityType="Self.Siswa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Guru_Mapel" Association="Self.FK_Guru_Mapel">
+            <End Role="Mapel" EntitySet="Mapel" />
+            <End Role="Guru" EntitySet="Guru" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kelas_Guru" Association="Self.FK_Kelas_Guru">
+            <End Role="Guru" EntitySet="Guru" />
+            <End Role="Kelas" EntitySet="Kelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siswa_Jurusan" Association="Self.FK_Siswa_Jurusan">
+            <End Role="Jurusan" EntitySet="Jurusan" />
+            <End Role="Siswa" EntitySet="Siswa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siswa_Kelas" Association="Self.FK_Siswa_Kelas">
+            <End Role="Kelas" EntitySet="Kelas" />
+            <End Role="Siswa" EntitySet="Siswa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbsmkrtudentbaruModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Guru">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nama" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="No_Telepon_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mata_pelajaran_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Mapel" Relationship="Self.FK_Guru_Mapel" FromRole="Guru" ToRole="Mapel" />
+          <NavigationProperty Name="Kelas" Relationship="Self.FK_Kelas_Guru" FromRole="Guru" ToRole="Kelas" />
+        </EntityType>
+        <EntityType Name="Jurusan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nama" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Siswas" Relationship="Self.FK_Siswa_Jurusan" FromRole="Jurusan" ToRole="Siswa" />
+        </EntityType>
+        <EntityType Name="Kela">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nama" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Wali_Kelas_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Guru" Relationship="Self.FK_Kelas_Guru" FromRole="Kelas" ToRole="Guru" />
+          <NavigationProperty Name="Siswas" Relationship="Self.FK_Siswa_Kelas" FromRole="Kelas" ToRole="Siswa" />
+        </EntityType>
+        <EntityType Name="Mapel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nama" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Gurus" Relationship="Self.FK_Guru_Mapel" FromRole="Mapel" ToRole="Guru" />
+        </EntityType>
+        <EntityType Name="Siswa">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nama" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tanggal_lahir" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NISN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="No_Telepon" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Orang_tua" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Jurusan_id" Type="Int32" Nullable="false" />
+          <Property Name="Kelas_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Jurusan" Relationship="Self.FK_Siswa_Jurusan" FromRole="Siswa" ToRole="Jurusan" />
+          <NavigationProperty Name="Kela" Relationship="Self.FK_Siswa_Kelas" FromRole="Siswa" ToRole="Kelas" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Guru_Mapel">
+          <End Role="Mapel" Type="Self.Mapel" Multiplicity="1" />
+          <End Role="Guru" Type="Self.Guru" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mapel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Guru">
+              <PropertyRef Name="Mata_pelajaran_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kelas_Guru">
+          <End Role="Guru" Type="Self.Guru" Multiplicity="1" />
+          <End Role="Kelas" Type="Self.Kela" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guru">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Kelas">
+              <PropertyRef Name="Wali_Kelas_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siswa_Jurusan">
+          <End Role="Jurusan" Type="Self.Jurusan" Multiplicity="1" />
+          <End Role="Siswa" Type="Self.Siswa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jurusan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Siswa">
+              <PropertyRef Name="Jurusan_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siswa_Kelas">
+          <End Role="Kelas" Type="Self.Kela" Multiplicity="1" />
+          <End Role="Siswa" Type="Self.Siswa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kelas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Siswa">
+              <PropertyRef Name="Kelas_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbsmkrtudentbaruEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Gurus" EntityType="Self.Guru" />
+          <EntitySet Name="Jurusans" EntityType="Self.Jurusan" />
+          <EntitySet Name="Kelas" EntityType="Self.Kela" />
+          <EntitySet Name="Mapels" EntityType="Self.Mapel" />
+          <EntitySet Name="Siswas" EntityType="Self.Siswa" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_Guru_Mapel" Association="Self.FK_Guru_Mapel">
+            <End Role="Mapel" EntitySet="Mapels" />
+            <End Role="Guru" EntitySet="Gurus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kelas_Guru" Association="Self.FK_Kelas_Guru">
+            <End Role="Guru" EntitySet="Gurus" />
+            <End Role="Kelas" EntitySet="Kelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siswa_Jurusan" Association="Self.FK_Siswa_Jurusan">
+            <End Role="Jurusan" EntitySet="Jurusans" />
+            <End Role="Siswa" EntitySet="Siswas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siswa_Kelas" Association="Self.FK_Siswa_Kelas">
+            <End Role="Kelas" EntitySet="Kelas" />
+            <End Role="Siswa" EntitySet="Siswas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbsmkrtudentbaruModelStoreContainer" CdmEntityContainer="dbsmkrtudentbaruEntities">
+          <EntitySetMapping Name="Gurus">
+            <EntityTypeMapping TypeName="dbsmkrtudentbaruModel.Guru">
+              <MappingFragment StoreEntitySet="Guru">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nama" ColumnName="Nama" />
+                <ScalarProperty Name="No_Telepon_id" ColumnName="No_Telepon_id" />
+                <ScalarProperty Name="Mata_pelajaran_id" ColumnName="Mata_pelajaran_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jurusans">
+            <EntityTypeMapping TypeName="dbsmkrtudentbaruModel.Jurusan">
+              <MappingFragment StoreEntitySet="Jurusan">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nama" ColumnName="Nama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kelas">
+            <EntityTypeMapping TypeName="dbsmkrtudentbaruModel.Kela">
+              <MappingFragment StoreEntitySet="Kelas">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nama" ColumnName="Nama" />
+                <ScalarProperty Name="Wali_Kelas_ID" ColumnName="Wali_Kelas_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mapels">
+            <EntityTypeMapping TypeName="dbsmkrtudentbaruModel.Mapel">
+              <MappingFragment StoreEntitySet="Mapel">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nama" ColumnName="Nama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Siswas">
+            <EntityTypeMapping TypeName="dbsmkrtudentbaruModel.Siswa">
+              <MappingFragment StoreEntitySet="Siswa">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nama" ColumnName="Nama" />
+                <ScalarProperty Name="Tanggal_lahir" ColumnName="Tanggal_lahir" />
+                <ScalarProperty Name="NISN" ColumnName="NISN" />
+                <ScalarProperty Name="No_Telepon" ColumnName="No_Telepon" />
+                <ScalarProperty Name="Orang_tua" ColumnName="Orang_tua" />
+                <ScalarProperty Name="Jurusan_id" ColumnName="Jurusan_id" />
+                <ScalarProperty Name="Kelas_id" ColumnName="Kelas_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="dbsmkrtudentbaruModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
